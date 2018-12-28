@@ -88,7 +88,7 @@ gameScene.createUI = function () {
 // rotate pet
 gameScene.rotatePet = function () {
 
-  console.log('ROTATE MOTHAFUCKA')
+  console.log('ROTATE')
 
 }
 
