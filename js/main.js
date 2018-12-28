@@ -83,6 +83,9 @@ gameScene.createUI = function () {
   this.rotateButton = this.add.sprite(288, 570, 'rotate').setInteractive()
   this.rotateButton.on('pointerdown', this.rotatePet)
 
+  // ui is not blocked
+  this.uiBlocked = false
+
 }
 
 // rotate pet
@@ -95,7 +98,15 @@ gameScene.rotatePet = function () {
 // pick item
 gameScene.pickItem = function () {
 
-  console.log(this.texture.key)
+  // check if the user interface is blocked
+  // prevents items from being picked during actions
+  if (this.scene.uiBlocked) return
+
+  // select item
+  this.scene.selectedItem = this
+
+  // change transparency of selected sprite
+  this.alpha = 0.5
 
 }
 
