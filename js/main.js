@@ -97,7 +97,27 @@ gameScene.createUI = function () {
 // rotate pet
 gameScene.rotatePet = function () {
 
-  console.log('ROTATE')
+  // check if the user interface is blocked
+  // prevents sprite from rotating during actions
+  if (this.scene.uiBlocked) return
+
+  // make sure ui is ready
+  this.scene.uiReady()
+
+  // block the ui for rotation action
+  this.scene.uiBlocked = true
+
+  // dim the rotate icon
+  this.alpha = 0.5
+
+  let scene = this.scene
+
+  setTimeout(function () {
+
+    // set scene back to ready
+    scene.uiReady()
+
+  }, 2000)
 
 }
 
@@ -131,6 +151,9 @@ gameScene.uiReady = function () {
     this.buttons[button].alpha = 1
 
   }
+
+  // scene must be unblocked
+  this.uiBlocked = false
 
 }
 
