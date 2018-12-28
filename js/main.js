@@ -83,8 +83,14 @@ gameScene.createUI = function () {
   this.rotateButton = this.add.sprite(288, 570, 'rotate').setInteractive()
   this.rotateButton.on('pointerdown', this.rotatePet)
 
+  // array with all buttons
+  this.buttons = [this.appleButton, this.candyButton, this.toyButton, this.rotateButton]
+
   // ui is not blocked
   this.uiBlocked = false
+
+  // refresh ui
+  this.uiReady()
 
 }
 
@@ -102,11 +108,29 @@ gameScene.pickItem = function () {
   // prevents items from being picked during actions
   if (this.scene.uiBlocked) return
 
+  // make sure the ui is ready
+  this.scene.uiReady()
+
   // select item
   this.scene.selectedItem = this
 
   // change transparency of selected sprite
   this.alpha = 0.5
+
+}
+
+// set ui to ready
+gameScene.uiReady = function () {
+
+  // make sure nothing is being selected
+  this.selectedItem = null
+
+  // no transparency (alpha) on all buttons
+  for (button in this.buttons) {
+
+    this.buttons[button].alpha = 1
+
+  }
 
 }
 
