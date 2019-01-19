@@ -41,6 +41,9 @@ gameScene.create = function () {
   // add game background
   this.bg = this.add.sprite(0, 0, 'backyard').setOrigin(0, 0).setInteractive()
 
+  // add event listener for background
+  this.bg.on('pointerdown', this.placeItem, this)
+
   // add pet
   this.pet = this.add.sprite(100, 200, 'pet', 0).setInteractive()
 
@@ -154,6 +157,20 @@ gameScene.uiReady = function () {
 
   // scene must be unblocked
   this.uiBlocked = false
+
+}
+
+// place a new item in gamescene
+gameScene.placeItem = function (pointer, localX, localY) {
+
+  // check that an item was selected
+  if (!this.selectedItem) return
+
+  // create a new item at the click position
+  let newItem = this.add.sprite(localX, localY, this.selectedItem.texture.key)
+
+  // clear UI
+  this.uiReady()
 
 }
 
