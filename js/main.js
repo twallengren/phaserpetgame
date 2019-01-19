@@ -169,6 +169,15 @@ gameScene.placeItem = function (pointer, localX, localY) {
   // create a new item at the click position
   let newItem = this.add.sprite(localX, localY, this.selectedItem.texture.key)
 
+  // pet stats
+  for (stat in this.selectedItem.customStats) {
+    if (this.selectedItem.customStats.hasOwnProperty(stat)) {
+
+      this.stats[stat] += this.selectedItem.customStats[stat]
+
+    }
+  }
+
   // clear UI
   this.uiReady()
 
