@@ -122,8 +122,6 @@ gameScene.rotatePet = function() {
 
       // set UI to ready
       this.scene.uiReady();
-
-      console.log(this.scene.stats);
     }
   });
 };
@@ -163,8 +161,28 @@ gameScene.placeItem = function(pointer, localX, localY) {
   // check that an item was selected
   if (!this.selectedItem) return;
 
+  // ui must be unblocked
+  if (this.uiBlocked) return;
+
   // create a new item at the click position
   let newItem = this.add.sprite(localX, localY, this.selectedItem.texture.key);
+
+  // block UI
+  this.uiBlocked = true;
+
+  // pet movement (tween)
+  let petTween = this.tweens.add({
+    targets: this.pet,
+    duration: 500,
+    x: newItem.x,
+    y: newItem.y,
+    paused: false,
+    callbackScope: this,
+    onComplete: function(tween, sprites) {
+      // clear ui
+      this.uiReady();
+    }
+  });
 
   // pet stats
   for (stat in this.selectedItem.customStats) {
@@ -172,9 +190,6 @@ gameScene.placeItem = function(pointer, localX, localY) {
       this.stats[stat] += this.selectedItem.customStats[stat];
     }
   }
-
-  // clear UI
-  this.uiReady();
 };
 
 // our game's configuration
