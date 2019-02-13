@@ -42,9 +42,19 @@ gameScene.create = function() {
 
   // add pet
   this.pet = this.add.sprite(100, 200, "pet", 0).setInteractive();
+  this.pet.depth = 1;
 
   // make pet draggable
   this.input.setDraggable(this.pet);
+
+  // pet animation
+  this.anims.create({
+    key: "funnyfaces",
+    frames: this.anims.generateFrameNames("pet", { frames: [1, 2, 3] }),
+    frameRate: 7,
+    yoyo: true,
+    repeat: 0
+  });
 
   // follow pointer (mouse/finger) when dragging
   this.input.on("drag", function(pointer, gameObject, dragX, dragY) {
@@ -179,8 +189,24 @@ gameScene.placeItem = function(pointer, localX, localY) {
     paused: false,
     callbackScope: this,
     onComplete: function(tween, sprites) {
-      // clear ui
-      this.uiReady();
+      // destroy item
+      newItem.destroy();
+
+      // event listener for when spritesheet animation ends
+      this.pet.on(
+        "animationcomplete",
+        function() {
+          // set pet back to neutral face
+          this.pet.setFrame(0);
+
+          // clear ui
+          this.uiReady();
+        },
+        this
+      );
+
+      // play spritesheet animation
+      this.pet.play("funnyfaces");
     }
   });
 
