@@ -65,6 +65,10 @@ gameScene.create = function() {
 
   // create ui
   this.createUI();
+
+  // show stats to the user
+  this.createHud();
+  this.refreshHud();
 };
 
 // create ui
@@ -132,6 +136,9 @@ gameScene.rotatePet = function() {
 
       // set UI to ready
       this.scene.uiReady();
+
+      // update hud
+      this.scene.refreshHud();
     }
   });
 };
@@ -201,6 +208,9 @@ gameScene.placeItem = function(pointer, localX, localY) {
 
           // clear ui
           this.uiReady();
+
+          // update hud
+          this.refreshHud();
         },
         this
       );
@@ -216,6 +226,27 @@ gameScene.placeItem = function(pointer, localX, localY) {
       this.stats[stat] += this.selectedItem.customStats[stat];
     }
   }
+};
+
+// create the text elements that will show the stats
+gameScene.createHud = function() {
+  // health stat
+  this.healthText = this.add.text(20, 20, "Health: ", {
+    font: "26px Arial",
+    fill: "#ffffff"
+  });
+
+  // fun stat
+  this.funText = this.add.text(170, 20, "Fun: ", {
+    font: "26px Arial",
+    fill: "#ffffff"
+  });
+};
+
+// show the current value of health and fun
+gameScene.refreshHud = function() {
+  this.healthText.setText("Health: " + this.stats.health);
+  this.funText.setText("Fun: " + this.stats.fun);
 };
 
 // our game's configuration
